@@ -6,19 +6,18 @@ type ScheduleBuilder struct {
 	world        *World
 }
 
-func CreateScheduleBuilder(world *World) *ScheduleBuilder {
+func CreateScheduleBuilder() *ScheduleBuilder {
 	b := new(ScheduleBuilder)
 	b.stages = make([]Stage, 0)
 	b.currentStage = make([]SystemContainer, 0)
-	b.world = world
 	return b
 }
 
 func (b *ScheduleBuilder) AddSystem(system System) *ScheduleBuilder {
 	c := make(chan int)
 	systemContainer := SystemContainer{
-		system: func(world *World) {
-			system(world)
+		system: func(world *World, resources *Resources) {
+			system(world, resources)
 			c <- 1
 		},
 		c: c,
@@ -36,6 +35,5 @@ func (b *ScheduleBuilder) Flush() *ScheduleBuilder {
 func (b *ScheduleBuilder) Build() *Scheduler {
 	scheduler := new(Scheduler)
 	scheduler.stages = b.stages
-	scheduler.world = b.world
 	return scheduler
 }

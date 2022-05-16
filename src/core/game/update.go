@@ -1,4 +1,0 @@
-package game
-
-func Update() {
-}

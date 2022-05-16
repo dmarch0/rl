@@ -2,7 +2,7 @@ package main
 
 import (
 	"rl/src/core/boot"
-	"rl/src/core/game"
+	"rl/src/core/loop"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -10,7 +10,7 @@ import (
 func main() {
 	window, renderer := boot.InitSdl()
 
-	game.GameLoop(window, renderer)
+	loop.GameLoop(window, renderer)
 
 	sdl.Quit()
 	window.Destroy()
