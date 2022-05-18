@@ -21,28 +21,30 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	builder := ecs.CreateScheduleBuilder()
 	builder.AddSystem(systems.InputSystem)
 	builder.Flush()
+	builder.AddSystem(systems.MovementSystem)
+	builder.Flush()
 	scheduler := builder.Build()
 
 	scheduler.World = &world
 	scheduler.Resources = &resources
 
 	e := ecs.Entity{
-		Components: make([]ecs.Component, 0),
-	}
-	e.Components = append(e.Components, components.Position{
-		X: 10,
-		Y: 10,
-	})
-	e.Components = append(e.Components, components.SimpleRender{
-		Color: utils.RGBA{
-			R: 255,
-			G: 0,
-			B: 0,
-			A: 255,
+		Player: &components.Player{},
+		SimpleRender: &components.SimpleRender{
+			Color: utils.RGBA{
+				R: 255,
+				G: 0,
+				B: 0,
+				A: 255,
+			},
+			W: 100,
+			H: 100,
 		},
-		W: 100,
-		H: 100,
-	})
+		Position: &components.Position{
+			Vector: utils.Vector{10, 10},
+		},
+		Velocity: &components.Velocity{Vector: utils.Vector{0, 0}},
+	}
 	scheduler.World.AddEntity(e)
 
 	for resources.Running {

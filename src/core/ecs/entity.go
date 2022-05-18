@@ -1,16 +1,12 @@
 package ecs
 
-type Entity struct {
-	Components []Component
-}
+import (
+	"rl/src/core/components"
+)
 
-func TryGetComponent[T any](e *Entity) *T {
-	for _, component := range e.Components {
-		switch component.(type) {
-		case T:
-			c := component.(T)
-			return &c
-		}
-	}
-	return nil
+type Entity struct {
+	Player       *components.Player
+	Position     *components.Position
+	SimpleRender *components.SimpleRender
+	Velocity     *components.Velocity
 }

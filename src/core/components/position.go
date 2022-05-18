@@ -1,8 +1,9 @@
 package components
 
+import "rl/src/core/utils"
+
 type Position struct {
-	X int
-	Y int
+	utils.Vector
 }
 
 func (p Position) Lock()   {}
