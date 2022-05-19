@@ -1,7 +1,6 @@
 package loop
 
 import (
-	"rl/src/core/components"
 	"rl/src/core/ecs"
 	"rl/src/core/systems"
 	"rl/src/core/utils"
@@ -15,11 +14,15 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		Renderer: renderer,
 	}
 	world := ecs.World{
-		Entities: make([]ecs.Entity, 0),
+		Entities: make([]*ecs.Entity, 0),
 	}
 
 	builder := ecs.CreateScheduleBuilder()
 	builder.AddSystem(systems.InputSystem)
+	builder.Flush()
+	builder.AddSystem(systems.VelocitySystem)
+	builder.Flush()
+	builder.AddSystem(systems.CollisionSystem)
 	builder.Flush()
 	builder.AddSystem(systems.MovementSystem)
 	builder.Flush()
@@ -28,24 +31,39 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	scheduler.World = &world
 	scheduler.Resources = &resources
 
-	e := ecs.Entity{
-		Player: &components.Player{},
-		SimpleRender: &components.SimpleRender{
-			Color: utils.RGBA{
-				R: 255,
-				G: 0,
-				B: 0,
-				A: 255,
-			},
-			W: 100,
-			H: 100,
+	e := ecs.Entity{}
+	ecs.BindPlayer(&e, &ecs.Player{})
+	ecs.BindTransform(&e, &ecs.Transform{
+		Position: utils.Vector{10, 10},
+		Scale:    utils.Vector{10, 10},
+	})
+	ecs.BindVelocity(&e, &ecs.Velocity{Value: utils.Vector{0, 0}})
+	ecs.BindSimpleRender(&e, &ecs.SimpleRender{
+		Color: utils.RGBA{
+			R: 255,
+			G: 255,
+			B: 255,
+			A: 255,
 		},
-		Position: &components.Position{
-			Vector: utils.Vector{10, 10},
+	})
+	ecs.BindCollider(&e, &ecs.Collider{})
+	scheduler.World.AddEntity(&e)
+
+	block := ecs.Entity{}
+	ecs.BindTransform(&block, &ecs.Transform{
+		Position: utils.Vector{30, 30},
+		Scale:    utils.Vector{200, 30},
+	})
+	ecs.BindSimpleRender(&block, &ecs.SimpleRender{
+		Color: utils.RGBA{
+			R: 255,
+			G: 0,
+			B: 0,
+			A: 255,
 		},
-		Velocity: &components.Velocity{Vector: utils.Vector{0, 0}},
-	}
-	scheduler.World.AddEntity(e)
+	})
+	ecs.BindCollider(&block, &ecs.Collider{})
+	scheduler.World.AddEntity(&block)
 
 	for resources.Running {
 		systems.PrepearSystem(&world, &resources)

@@ -1,7 +1,6 @@
 package systems
 
 import (
-	"fmt"
 	"rl/src/core/ecs"
 	"rl/src/core/utils"
 
@@ -35,10 +34,9 @@ func HandleKeyboardInput(event *sdl.KeyboardEvent, world *ecs.World) {
 }
 
 func HandleKeyDown(event *sdl.KeyboardEvent, world *ecs.World) {
-	fmt.Println("KeyDown")
 	if event.Repeat == 0 {
 		switch event.Keysym.Scancode {
-		case sdl.SCANCODE_UP, sdl.SCANCODE_DOWN, sdl.SCANCODE_LEFT, sdl.SCANCODE_RIGHT:
+		case sdl.SCANCODE_W, sdl.SCANCODE_S, sdl.SCANCODE_A, sdl.SCANCODE_D:
 			HandleMovement(event.Keysym.Scancode, world)
 			break
 		}
@@ -48,38 +46,32 @@ func HandleKeyDown(event *sdl.KeyboardEvent, world *ecs.World) {
 
 func HandleMovement(scancode sdl.Scancode, world *ecs.World) {
 	player, error := world.TryGetEntity(ecs.IsPlayer)
-	fmt.Println(player, error)
 	if error != nil {
 		return
 	}
 	velocity := player.Velocity
-	fmt.Println(velocity)
 	if velocity != nil {
-		fmt.Println("Got player and velocity")
 		switch scancode {
-		case sdl.SCANCODE_DOWN:
-			velocity.Vector.Add(utils.Vector{0, -1})
+		case sdl.SCANCODE_S:
+			velocity.Value.Add(utils.Vector{0, 1})
 			break
-		case sdl.SCANCODE_UP:
-			velocity.Vector.Add(utils.Vector{0, 1})
+		case sdl.SCANCODE_W:
+			velocity.Value.Add(utils.Vector{0, -1})
 			break
-		case sdl.SCANCODE_LEFT:
-			velocity.Vector.Add(utils.Vector{-1, 0})
+		case sdl.SCANCODE_A:
+			velocity.Value.Add(utils.Vector{-1, 0})
 			break
-		case sdl.SCANCODE_RIGHT:
-			velocity.Vector.Add(utils.Vector{1, 0})
+		case sdl.SCANCODE_D:
+			velocity.Value.Add(utils.Vector{1, 0})
 			break
 		}
-		fmt.Println("NEW VELO", velocity)
-		fmt.Println(player, velocity)
 	}
 }
 
 func HandleKeyUp(event *sdl.KeyboardEvent, world *ecs.World) {
-	fmt.Println("KeyUp")
 	if event.Repeat == 0 {
 		switch event.Keysym.Scancode {
-		case sdl.SCANCODE_UP, sdl.SCANCODE_DOWN, sdl.SCANCODE_LEFT, sdl.SCANCODE_RIGHT:
+		case sdl.SCANCODE_W, sdl.SCANCODE_S, sdl.SCANCODE_A, sdl.SCANCODE_D:
 			HandleStopMovement(event.Keysym.Scancode, world)
 			break
 		}
@@ -95,19 +87,18 @@ func HandleStopMovement(scancode sdl.Scancode, world *ecs.World) {
 	velocity := player.Velocity
 	if velocity != nil {
 		switch scancode {
-		case sdl.SCANCODE_DOWN:
-			velocity.Vector.Add(utils.Vector{0, 1})
+		case sdl.SCANCODE_S:
+			velocity.Value.Add(utils.Vector{0, -1})
 			break
-		case sdl.SCANCODE_UP:
-			velocity.Vector.Add(utils.Vector{0, -1})
+		case sdl.SCANCODE_W:
+			velocity.Value.Add(utils.Vector{0, 1})
 			break
-		case sdl.SCANCODE_LEFT:
-			velocity.Vector.Add(utils.Vector{1, 0})
+		case sdl.SCANCODE_A:
+			velocity.Value.Add(utils.Vector{1, 0})
 			break
-		case sdl.SCANCODE_RIGHT:
-			velocity.Vector.Add(utils.Vector{-1, 0})
+		case sdl.SCANCODE_D:
+			velocity.Value.Add(utils.Vector{-1, 0})
 			break
 		}
-		fmt.Println("NEW VELO", velocity)
 	}
 }

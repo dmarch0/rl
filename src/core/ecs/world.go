@@ -5,10 +5,10 @@ import (
 )
 
 type World struct {
-	Entities []Entity
+	Entities []*Entity
 }
 
-func (w *World) AddEntity(e Entity) {
+func (w *World) AddEntity(e *Entity) {
 	w.Entities = append(w.Entities, e)
 }
 
@@ -16,8 +16,8 @@ type EntityFilter func(e *Entity) bool
 
 func (w *World) TryGetEntity(filter EntityFilter) (*Entity, error) {
 	for _, e := range w.Entities {
-		if filter(&e) {
-			return &e, nil
+		if filter(e) {
+			return e, nil
 		}
 	}
 
@@ -27,8 +27,8 @@ func (w *World) TryGetEntity(filter EntityFilter) (*Entity, error) {
 func (w *World) GetEntities(filter EntityFilter) []*Entity {
 	result := make([]*Entity, 0)
 	for _, e := range w.Entities {
-		if filter(&e) {
-			result = append(result, &e)
+		if filter(e) {
+			result = append(result, e)
 		}
 	}
 	return result
@@ -36,4 +36,8 @@ func (w *World) GetEntities(filter EntityFilter) []*Entity {
 
 func IsPlayer(e *Entity) bool {
 	return e.Player != nil
+}
+
+func HasCollider(e *Entity) bool {
+	return e.Collider != nil
 }
