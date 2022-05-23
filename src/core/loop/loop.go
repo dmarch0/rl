@@ -26,6 +26,8 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	builder.Flush()
 	builder.AddSystem(systems.MovementSystem)
 	builder.Flush()
+	builder.AddSystem(systems.DeathSystem)
+	builder.Flush()
 	scheduler := builder.Build()
 
 	scheduler.World = &world
@@ -46,13 +48,13 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 			A: 255,
 		},
 	})
-	ecs.BindCollider(&e, &ecs.Collider{})
+	ecs.BindCollider(&e, &ecs.Collider{IsSolid: true})
 	scheduler.World.AddEntity(&e)
 
 	block := ecs.Entity{}
 	ecs.BindTransform(&block, &ecs.Transform{
 		Position: utils.Vector{30, 30},
-		Scale:    utils.Vector{200, 30},
+		Scale:    utils.Vector{30, 30},
 	})
 	ecs.BindSimpleRender(&block, &ecs.SimpleRender{
 		Color: utils.RGBA{
@@ -62,7 +64,8 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 			A: 255,
 		},
 	})
-	ecs.BindCollider(&block, &ecs.Collider{})
+	ecs.BindCollider(&block, &ecs.Collider{IsSolid: true})
+	ecs.BindHealth(&block, &ecs.Health{Value: 20.0})
 	scheduler.World.AddEntity(&block)
 
 	for resources.Running {

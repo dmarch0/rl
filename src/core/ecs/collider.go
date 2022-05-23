@@ -1,7 +1,8 @@
 package ecs
 
 type Collider struct {
-	Entity *Entity
+	Entity  *Entity
+	IsSolid bool
 }
 
 func (c Collider) Lock()   {}

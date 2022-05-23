@@ -5,6 +5,8 @@ type Entity struct {
 	Transform         *Transform
 	SimpleRender      *SimpleRender
 	Velocity          *Velocity
-	MovementIntention *MovementIntention
 	Collider          *Collider
+	Health            *Health
+	MovementIntention *MovementIntention
+	DeathIntention    *DeathIntention
 }
