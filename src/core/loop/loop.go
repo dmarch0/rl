@@ -49,24 +49,15 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		},
 	})
 	ecs.BindCollider(&e, &ecs.Collider{IsSolid: true})
+	ecs.BindDamager(&e, &ecs.Damager{})
 	scheduler.World.AddEntity(&e)
 
-	block := ecs.Entity{}
-	ecs.BindTransform(&block, &ecs.Transform{
-		Position: utils.Vector{30, 30},
-		Scale:    utils.Vector{30, 30},
-	})
-	ecs.BindSimpleRender(&block, &ecs.SimpleRender{
-		Color: utils.RGBA{
-			R: 255,
-			G: 0,
-			B: 0,
-			A: 255,
-		},
-	})
-	ecs.BindCollider(&block, &ecs.Collider{IsSolid: true})
-	ecs.BindHealth(&block, &ecs.Health{Value: 20.0})
-	scheduler.World.AddEntity(&block)
+	commonScale := utils.Vector{20, 20}
+	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{0, 20})
+	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{20, 20})
+	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{40, 20})
+	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{60, 20})
+	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{80, 20})
 
 	for resources.Running {
 		systems.PrepearSystem(&world, &resources)

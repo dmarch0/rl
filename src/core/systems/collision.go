@@ -26,7 +26,7 @@ func CollisionSystem(world *ecs.World, resources *ecs.Resources) {
 					if collider.Collider.IsSolid && otherCollider.Collider.IsSolid {
 						HandleSolidCollision(collider)
 					}
-					if otherCollider.Health != nil {
+					if otherCollider.Health != nil && collider.Damager != nil {
 						HandleDamageCollision(collider, otherCollider)
 					}
 				}

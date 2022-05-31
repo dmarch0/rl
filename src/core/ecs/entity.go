@@ -9,4 +9,5 @@ type Entity struct {
 	Health            *Health
 	MovementIntention *MovementIntention
 	DeathIntention    *DeathIntention
+	Damager           *Damager
 }
