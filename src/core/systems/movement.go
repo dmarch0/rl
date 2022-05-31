@@ -12,6 +12,7 @@ func MovementSystem(world *ecs.World, resources *ecs.Resources) {
 		if velocity != nil && transform != nil && movementIntention != nil {
 			transform.Position = movementIntention.Where
 			e.MovementIntention = nil
+			world.CollidersHashTable.UpdateObject(e)
 		}
 	}
 }

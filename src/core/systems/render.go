@@ -12,13 +12,15 @@ func RenderSystem(world *ecs.World, resources *ecs.Resources) {
 		render := e.SimpleRender
 
 		if render != nil && transform != nil {
-			resources.Renderer.SetDrawColor(render.Color.R, render.Color.G, render.Color.B, render.Color.A)
 			rect := sdl.Rect{
 				X: int32(transform.Position.X),
 				Y: int32(transform.Position.Y),
 				W: int32(transform.Scale.X),
 				H: int32(transform.Scale.Y),
 			}
+			resources.Renderer.SetDrawColor(render.Fill.R, render.Fill.G, render.Fill.B, render.Fill.A)
+			resources.Renderer.FillRect(&rect)
+			resources.Renderer.SetDrawColor(render.Border.R, render.Border.G, render.Border.B, render.Border.A)
 			resources.Renderer.DrawRect(&rect)
 		}
 	}

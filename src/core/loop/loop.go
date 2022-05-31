@@ -14,7 +14,8 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		Renderer: renderer,
 	}
 	world := ecs.World{
-		Entities: make([]*ecs.Entity, 0),
+		Entities:           make([]*ecs.Entity, 0),
+		CollidersHashTable: ecs.CreateCollidersHashTable(),
 	}
 
 	builder := ecs.CreateScheduleBuilder()
@@ -41,11 +42,17 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	})
 	ecs.BindVelocity(&e, &ecs.Velocity{Value: utils.Vector{0, 0}})
 	ecs.BindSimpleRender(&e, &ecs.SimpleRender{
-		Color: utils.RGBA{
+		Border: utils.RGBA{
 			R: 255,
 			G: 255,
 			B: 255,
 			A: 255,
+		},
+		Fill: utils.RGBA{
+			R: 0,
+			G: 0,
+			B: 0,
+			A: 0,
 		},
 	})
 	ecs.BindCollider(&e, &ecs.Collider{IsSolid: true})
@@ -53,11 +60,11 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	scheduler.World.AddEntity(&e)
 
 	commonScale := utils.Vector{20, 20}
-	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{0, 20})
-	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{20, 20})
-	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{40, 20})
-	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{60, 20})
-	ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{80, 20})
+	for i := 0; i < 30; i++ {
+		for j := 0; j < 30; j++ {
+			ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{i * 20, j * 20})
+		}
+	}
 
 	for resources.Running {
 		systems.PrepearSystem(&world, &resources)

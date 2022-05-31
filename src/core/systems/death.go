@@ -8,6 +8,7 @@ func DeathSystem(world *ecs.World, resources *ecs.Resources) {
 	newEntities := make([]*ecs.Entity, 0)
 	for _, e := range world.Entities {
 		if e.DeathIntention != nil {
+			world.CollidersHashTable.Remove(e)
 			continue
 		}
 		newEntities = append(newEntities, e)

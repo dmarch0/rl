@@ -8,7 +8,8 @@ func CollisionSystem(world *ecs.World, resources *ecs.Resources) {
 	colliders := world.GetEntities(ecs.HasCollider)
 	for _, collider := range colliders {
 		if collider.Transform != nil {
-			for _, otherCollider := range colliders {
+			otherColliders := world.CollidersHashTable.QueryPosition(collider)
+			for _, otherCollider := range otherColliders {
 				if collider == otherCollider {
 					continue
 				}

@@ -5,11 +5,15 @@ import (
 )
 
 type World struct {
-	Entities []*Entity
+	Entities           []*Entity
+	CollidersHashTable CollidersHashTable
 }
 
 func (w *World) AddEntity(e *Entity) {
 	w.Entities = append(w.Entities, e)
+	if e.Collider != nil && e.Transform != nil {
+		w.CollidersHashTable.Insert(e)
+	}
 }
 
 type EntityFilter func(e *Entity) bool

@@ -9,7 +9,13 @@ func SpawnSimpleBlock(world *World, scale utils.Vector, position utils.Vector) {
 		Scale:    scale,
 	})
 	BindSimpleRender(&block, &SimpleRender{
-		Color: utils.RGBA{
+		Border: utils.RGBA{
+			R: 255,
+			G: 0,
+			B: 0,
+			A: 255,
+		},
+		Fill: utils.RGBA{
 			R: 255,
 			G: 0,
 			B: 0,

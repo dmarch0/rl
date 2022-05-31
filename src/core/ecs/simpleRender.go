@@ -3,7 +3,8 @@ package ecs
 import "rl/src/core/utils"
 
 type SimpleRender struct {
-	Color  utils.RGBA
+	Border utils.RGBA
+	Fill   utils.RGBA
 	Entity *Entity
 }
 
