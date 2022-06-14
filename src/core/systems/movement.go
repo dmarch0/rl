@@ -5,7 +5,7 @@ import (
 )
 
 func MovementSystem(world *ecs.World, resources *ecs.Resources) {
-	for _, e := range world.Entities {
+	for _, e := range world.Movers {
 		velocity := e.Velocity
 		transform := e.Transform
 		movementIntention := e.MovementIntention

@@ -31,3 +31,24 @@ func (t Transform) DoIntersect(other *Transform) bool {
 
 	return leftA <= rightB && rightA >= leftB && topA <= bottomB && bottomA >= topB
 }
+
+func (t Transform) GetBoundingPoints() []utils.Vector {
+	return []utils.Vector{
+		utils.Vector{
+			X: t.Position.X,
+			Y: t.Position.Y,
+		},
+		utils.Vector{
+			X: t.Position.X + t.Scale.X,
+			Y: t.Position.Y,
+		},
+		utils.Vector{
+			X: t.Position.X,
+			Y: t.Position.Y + t.Scale.Y,
+		},
+		utils.Vector{
+			X: t.Position.X + t.Scale.X,
+			Y: t.Position.Y + t.Scale.Y,
+		},
+	}
+}

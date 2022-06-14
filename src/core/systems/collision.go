@@ -2,13 +2,14 @@ package systems
 
 import (
 	"rl/src/core/ecs"
+	"rl/src/core/utils"
 )
 
 func CollisionSystem(world *ecs.World, resources *ecs.Resources) {
 	colliders := world.GetEntities(ecs.HasCollider)
 	for _, collider := range colliders {
 		if collider.Transform != nil {
-			otherColliders := world.CollidersHashTable.QueryPosition(collider)
+			otherColliders := world.CollidersHashTable.QueryVolumedPosition(collider)
 			for _, otherCollider := range otherColliders {
 				if collider == otherCollider {
 					continue
@@ -45,5 +46,13 @@ func HandleDamageCollision(collider *ecs.Entity, other *ecs.Entity) {
 	if other.Health.Value <= 0 {
 		deathIntention := &ecs.DeathIntention{}
 		ecs.BindDeathIntention(other, deathIntention)
+	}
+	if other.SimpleRender != nil {
+		other.SimpleRender.Fill = utils.RGBA{
+			R: 0,
+			G: 255,
+			B: 0,
+			A: 255,
+		}
 	}
 }

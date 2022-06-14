@@ -7,12 +7,20 @@ import (
 type World struct {
 	Entities           []*Entity
 	CollidersHashTable CollidersHashTable
+	Player             *Entity
+	Movers             []*Entity
 }
 
 func (w *World) AddEntity(e *Entity) {
 	w.Entities = append(w.Entities, e)
 	if e.Collider != nil && e.Transform != nil {
 		w.CollidersHashTable.Insert(e)
+	}
+	if e.Player != nil {
+		w.Player = e
+	}
+	if e.Mover != nil {
+		w.Movers = append(w.Movers, e)
 	}
 }
 

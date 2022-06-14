@@ -45,8 +45,8 @@ func HandleKeyDown(event *sdl.KeyboardEvent, world *ecs.World) {
 }
 
 func HandleMovement(scancode sdl.Scancode, world *ecs.World) {
-	player, error := world.TryGetEntity(ecs.IsPlayer)
-	if error != nil {
+	player := world.Player
+	if player == nil {
 		return
 	}
 	velocity := player.Velocity
@@ -80,8 +80,8 @@ func HandleKeyUp(event *sdl.KeyboardEvent, world *ecs.World) {
 }
 
 func HandleStopMovement(scancode sdl.Scancode, world *ecs.World) {
-	player, error := world.TryGetEntity(ecs.IsPlayer)
-	if error != nil {
+	player := world.Player
+	if player == nil {
 		return
 	}
 	velocity := player.Velocity

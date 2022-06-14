@@ -5,7 +5,7 @@ import (
 )
 
 func VelocitySystem(world *ecs.World, resources *ecs.Resources) {
-	for _, e := range world.Entities {
+	for _, e := range world.Movers {
 		velocity := e.Velocity
 		transform := e.Transform
 		if velocity != nil && transform != nil && !velocity.Value.IsZero() {

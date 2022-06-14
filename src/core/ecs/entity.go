@@ -10,4 +10,5 @@ type Entity struct {
 	MovementIntention *MovementIntention
 	DeathIntention    *DeathIntention
 	Damager           *Damager
+	Mover             *Mover
 }
