@@ -41,7 +41,10 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		Position: utils.Vector{10, 10},
 		Scale:    utils.Vector{10, 10},
 	})
-	ecs.BindVelocity(&e, &ecs.Velocity{Value: utils.Vector{0, 0}})
+	ecs.BindVelocity(&e, &ecs.Velocity{
+		Direction: utils.Vector{0, 0},
+		Value:     2,
+	})
 	ecs.BindSimpleRender(&e, &ecs.SimpleRender{
 		Border: utils.RGBA{
 			R: 255,
@@ -62,8 +65,8 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	scheduler.World.AddEntity(&e)
 
 	commonScale := utils.Vector{30, 30}
-	for i := 0; i < 200; i++ {
-		for j := 0; j < 200; j++ {
+	for i := 0; i < 20; i++ {
+		for j := 0; j < 20; j++ {
 			ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{i * commonScale.X, j * commonScale.Y})
 		}
 	}
@@ -74,8 +77,9 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		scheduler.Execute()
 		systems.RenderSystem(&world, &resources)
 		systems.PresentSystem(&world, &resources)
-		sdl.Delay(16)
-		frame_time := sdl.GetTicks() - start
+		sdl.Delay(8)
+		end := sdl.GetTicks()
+		frame_time := end - start
 		if frame_time > 0 {
 			fmt.Println("FPS: ", 1000.0/frame_time)
 		}

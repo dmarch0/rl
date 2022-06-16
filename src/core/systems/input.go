@@ -1,6 +1,7 @@
 package systems
 
 import (
+	"fmt"
 	"rl/src/core/ecs"
 	"rl/src/core/utils"
 
@@ -53,19 +54,20 @@ func HandleMovement(scancode sdl.Scancode, world *ecs.World) {
 	if velocity != nil {
 		switch scancode {
 		case sdl.SCANCODE_S:
-			velocity.Value.Add(utils.Vector{0, 1})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{0, 1})
 			break
 		case sdl.SCANCODE_W:
-			velocity.Value.Add(utils.Vector{0, -1})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{0, -1})
 			break
 		case sdl.SCANCODE_A:
-			velocity.Value.Add(utils.Vector{-1, 0})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{-1, 0})
 			break
 		case sdl.SCANCODE_D:
-			velocity.Value.Add(utils.Vector{1, 0})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{1, 0})
 			break
 		}
 	}
+	fmt.Println("Velo: ", player.Velocity)
 }
 
 func HandleKeyUp(event *sdl.KeyboardEvent, world *ecs.World) {
@@ -88,16 +90,16 @@ func HandleStopMovement(scancode sdl.Scancode, world *ecs.World) {
 	if velocity != nil {
 		switch scancode {
 		case sdl.SCANCODE_S:
-			velocity.Value.Add(utils.Vector{0, -1})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{0, -1})
 			break
 		case sdl.SCANCODE_W:
-			velocity.Value.Add(utils.Vector{0, 1})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{0, 1})
 			break
 		case sdl.SCANCODE_A:
-			velocity.Value.Add(utils.Vector{1, 0})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{1, 0})
 			break
 		case sdl.SCANCODE_D:
-			velocity.Value.Add(utils.Vector{-1, 0})
+			player.Velocity.Direction = velocity.Direction.Add(utils.Vector{-1, 0})
 			break
 		}
 	}

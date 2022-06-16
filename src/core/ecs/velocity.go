@@ -3,8 +3,9 @@ package ecs
 import "rl/src/core/utils"
 
 type Velocity struct {
-	Value  utils.Vector
-	Entity *Entity
+	Direction utils.Vector
+	Value     int
+	Entity    *Entity
 }
 
 func (v Velocity) Lock()   {}
