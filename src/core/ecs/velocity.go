@@ -4,7 +4,7 @@ import "rl/src/core/utils"
 
 type Velocity struct {
 	Direction utils.Vector
-	Value     int
+	Value     float64
 	Entity    *Entity
 }
 

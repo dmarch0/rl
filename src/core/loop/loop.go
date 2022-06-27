@@ -43,7 +43,7 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	})
 	ecs.BindVelocity(&e, &ecs.Velocity{
 		Direction: utils.Vector{0, 0},
-		Value:     2,
+		Value:     2.0,
 	})
 	ecs.BindSimpleRender(&e, &ecs.SimpleRender{
 		Border: utils.RGBA{
@@ -64,9 +64,9 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	ecs.BindMover(&e, &ecs.Mover{})
 	scheduler.World.AddEntity(&e)
 
-	commonScale := utils.Vector{30, 30}
-	for i := 0; i < 20; i++ {
-		for j := 0; j < 20; j++ {
+	commonScale := utils.Vector{30.0, 30.0}
+	for i := 0.0; i < 20.0; i++ {
+		for j := 0.0; j < 20.0; j++ {
 			ecs.SpawnSimpleBlock(scheduler.World, commonScale, utils.Vector{i * commonScale.X, j * commonScale.Y})
 		}
 	}

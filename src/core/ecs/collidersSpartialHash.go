@@ -91,7 +91,7 @@ func (c *CollidersHashTable) QueryVolumedPosition(e *Entity) []*Entity {
 }
 
 func HashPosition(position *utils.Vector) int {
-	opA := (position.X / 50) * 73856093
-	opB := (position.Y / 50) * 19349663
+	opA := (int(position.X) / 50) * 73856093
+	opB := (int(position.Y) / 50) * 19349663
 	return opA ^ opB
 }
