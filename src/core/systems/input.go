@@ -16,10 +16,41 @@ func InputSystem(world *ecs.World, resources *ecs.Resources) {
 			resources.Running = false
 			break
 		case *sdl.KeyboardEvent:
-
 			HandleKeyboardInput(event.(*sdl.KeyboardEvent), world)
 			break
+		case *sdl.MouseButtonEvent:
+			HandleMouseButtonEvent(event.(*sdl.MouseButtonEvent), world)
+			break
 		}
+	}
+}
+
+func HandleMouseButtonEvent(event *sdl.MouseButtonEvent, world *ecs.World) {
+	switch event.Type {
+	case sdl.MOUSEBUTTONDOWN:
+		HandleMouseButtonDown(event, world)
+		break
+	}
+}
+
+func HandleMouseButtonDown(event *sdl.MouseButtonEvent, world *ecs.World) {
+	switch event.Button {
+	case sdl.BUTTON_LEFT:
+		HandleLeftButtonDown(event, world)
+	}
+}
+
+func HandleLeftButtonDown(event *sdl.MouseButtonEvent, world *ecs.World) {
+	fmt.Println("Click at X=", event.X, " Y= ", event.Y)
+	clickVec := utils.Vector{
+		X: float64(event.X),
+		Y: float64(event.Y),
+	}
+	if world.Player != nil && world.Player.Transform != nil {
+		player := world.Player
+		dif := clickVec.Sub(player.Transform.Position)
+		normalDif := dif.Normalise()
+		ecs.SpawnBullet(world, normalDif, player.Transform.Position)
 	}
 }
 
