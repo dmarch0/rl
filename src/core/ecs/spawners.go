@@ -57,5 +57,6 @@ func SpawnBullet(world *World, velocity utils.Vector, position utils.Vector) {
 		Value:     5.0,
 	})
 	BindMover(&bullet, &Mover{})
+	BindDiesOnImpact(&bullet, &DiesOnImpact{})
 	world.AddEntity(&bullet)
 }

@@ -11,4 +11,5 @@ type Entity struct {
 	DeathIntention    *DeathIntention
 	Damager           *Damager
 	Mover             *Mover
+	DiesOnImpact      *DiesOnImpact
 }

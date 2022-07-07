@@ -50,7 +50,7 @@ func HandleLeftButtonDown(event *sdl.MouseButtonEvent, world *ecs.World) {
 		player := world.Player
 		dif := clickVec.Sub(player.Transform.Position)
 		normalDif := dif.Normalise()
-		ecs.SpawnBullet(world, normalDif, player.Transform.Position)
+		ecs.SpawnBullet(world, normalDif, player.Transform.Position.Add(normalDif.Mul(10)))
 	}
 }
 
