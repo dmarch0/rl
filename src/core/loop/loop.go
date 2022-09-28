@@ -71,17 +71,23 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		}
 	}
 
+	fps := 0
 	for resources.Running {
 		start := sdl.GetTicks()
 		systems.PrepearSystem(&world, &resources)
 		scheduler.Execute()
 		systems.RenderSystem(&world, &resources)
+
+		fpsRect := sdl.Rect{0, 0, 100, 24}
+		utils.PrintText(fmt.Sprintf("FPS: %d", fps), &fpsRect, renderer)
+
 		systems.PresentSystem(&world, &resources)
 		sdl.Delay(8)
+
 		end := sdl.GetTicks()
 		frame_time := end - start
 		if frame_time > 0 {
-			fmt.Println("FPS: ", 1000.0/frame_time)
+			fps = 1000 / int(frame_time)
 		}
 	}
 }

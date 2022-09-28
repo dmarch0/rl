@@ -5,6 +5,7 @@ import (
 
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/ttf"
 )
 
 func InitSdl() (*sdl.Window, *sdl.Renderer) {
@@ -29,6 +30,11 @@ func InitSdl() (*sdl.Window, *sdl.Renderer) {
 		panic(err)
 	}
 	fmt.Println("Image init")
+
+	if err := ttf.Init(); err != nil {
+		panic(err)
+	}
+	fmt.Println("TTF init")
 
 	return window, renderer
 }
