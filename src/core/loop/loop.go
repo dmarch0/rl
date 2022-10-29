@@ -13,6 +13,9 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	resources := ecs.Resources{
 		Running:  true,
 		Renderer: renderer,
+		ButtonState: &ecs.ButtonsState{
+			LeftMouseButton: false,
+		},
 	}
 	world := ecs.World{
 		Entities:           make([]*ecs.Entity, 0),
@@ -23,6 +26,7 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	builder.AddSystem(systems.InputSystem)
 	builder.Flush()
 	builder.AddSystem(systems.VelocitySystem)
+	builder.AddSystem(systems.ShootingSystem)
 	builder.Flush()
 	builder.AddSystem(systems.CollisionSystem)
 	builder.Flush()

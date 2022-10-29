@@ -19,39 +19,53 @@ func InputSystem(world *ecs.World, resources *ecs.Resources) {
 			HandleKeyboardInput(event.(*sdl.KeyboardEvent), world)
 			break
 		case *sdl.MouseButtonEvent:
-			HandleMouseButtonEvent(event.(*sdl.MouseButtonEvent), world)
+			HandleMouseButtonEvent(event.(*sdl.MouseButtonEvent), world, resources)
 			break
 		}
 	}
 }
 
-func HandleMouseButtonEvent(event *sdl.MouseButtonEvent, world *ecs.World) {
+func HandleMouseButtonEvent(event *sdl.MouseButtonEvent, world *ecs.World, resources *ecs.Resources) {
 	switch event.Type {
 	case sdl.MOUSEBUTTONDOWN:
-		HandleMouseButtonDown(event, world)
+		HandleMouseButtonDown(event, world, resources)
 		break
+	case sdl.MOUSEBUTTONUP:
+		HandleMouseButtonUp(event, world, resources)
 	}
 }
 
-func HandleMouseButtonDown(event *sdl.MouseButtonEvent, world *ecs.World) {
+func HandleMouseButtonDown(event *sdl.MouseButtonEvent, world *ecs.World, resources *ecs.Resources) {
 	switch event.Button {
 	case sdl.BUTTON_LEFT:
-		HandleLeftButtonDown(event, world)
+		HandleLeftButtonDown(event, world, resources)
 	}
 }
 
-func HandleLeftButtonDown(event *sdl.MouseButtonEvent, world *ecs.World) {
-	fmt.Println("Click at X=", event.X, " Y= ", event.Y)
-	clickVec := utils.Vector{
-		X: float64(event.X),
-		Y: float64(event.Y),
+func HandleLeftButtonDown(event *sdl.MouseButtonEvent, world *ecs.World, resources *ecs.Resources) {
+	resources.ButtonState.LeftMouseButton = true
+	// fmt.Println("Click at X=", event.X, " Y= ", event.Y)
+	// clickVec := utils.Vector{
+	// 	X: float64(event.X),
+	// 	Y: float64(event.Y),
+	// }
+	// if world.Player != nil && world.Player.Transform != nil {
+	// 	player := world.Player
+	// 	dif := clickVec.Sub(player.Transform.Position)
+	// 	normalDif := dif.Normalise()
+	// 	ecs.SpawnBullet(world, normalDif, player.Transform.Position.Add(normalDif.Mul(10)))
+	// }
+}
+
+func HandleMouseButtonUp(event *sdl.MouseButtonEvent, world *ecs.World, resources *ecs.Resources) {
+	switch event.Button {
+	case sdl.BUTTON_LEFT:
+		HandleLeftButtonUp(event, world, resources)
 	}
-	if world.Player != nil && world.Player.Transform != nil {
-		player := world.Player
-		dif := clickVec.Sub(player.Transform.Position)
-		normalDif := dif.Normalise()
-		ecs.SpawnBullet(world, normalDif, player.Transform.Position.Add(normalDif.Mul(10)))
-	}
+}
+
+func HandleLeftButtonUp(event *sdl.MouseButtonEvent, world *ecs.World, resources *ecs.Resources) {
+	resources.ButtonState.LeftMouseButton = false
 }
 
 func HandleKeyboardInput(event *sdl.KeyboardEvent, world *ecs.World) {
