@@ -29,6 +29,7 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 	builder.AddSystem(systems.ShootingSystem)
 	builder.Flush()
 	builder.AddSystem(systems.CollisionSystem)
+	builder.AddSystem(systems.LifetimeSystem)
 	builder.Flush()
 	builder.AddSystem(systems.MovementSystem)
 	builder.Flush()
@@ -93,5 +94,6 @@ func GameLoop(window *sdl.Window, renderer *sdl.Renderer) {
 		if frame_time > 0 {
 			fps = 1000 / int(frame_time)
 		}
+		fmt.Println("Entities: %d", len(world.Entities))
 	}
 }

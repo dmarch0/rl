@@ -12,4 +12,5 @@ type Entity struct {
 	Damager           *Damager
 	Mover             *Mover
 	DiesOnImpact      *DiesOnImpact
+	Lifetime          *Lifetime
 }

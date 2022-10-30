@@ -58,5 +58,9 @@ func SpawnBullet(world *World, velocity utils.Vector, position utils.Vector) {
 	})
 	BindMover(&bullet, &Mover{})
 	BindDiesOnImpact(&bullet, &DiesOnImpact{})
+	BindLifetime(&bullet, &Lifetime{
+		Lifetime: 5000,
+		Born:     utils.GetTimestamp(),
+	})
 	world.AddEntity(&bullet)
 }
